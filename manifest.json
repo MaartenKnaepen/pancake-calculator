@@ -1,0 +1,10 @@
+{
+  "name": "Protein Pancakes",
+  "short_name": "Pancakes",
+  "description": "Weigh your banana, everything else scales.",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a0b0d",
+  "theme_color": "#0a0b0d"
+}

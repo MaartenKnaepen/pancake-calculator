@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="description" content="Protein pancake recipe — weigh your banana, everything else scales.">
+<meta name="theme-color" content="#0a0b0d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Pancakes">
+<title>Protein Pancakes</title>
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;500;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="screen">
+    <header>
+      <div class="title">PROTEIN<span class="dot">·</span>PANCAKES</div>
+      <div class="meta">SCALE × BANANA</div>
+    </header>
+
+    <section class="anchor">
+      <label for="banana">Banana — weigh it</label>
+      <div class="field">
+        <input id="banana" type="number" inputmode="decimal" value="820" min="0" step="1" aria-label="Banana grams">
+        <span class="unit">g</span>
+      </div>
+    </section>
+
+    <section class="rows" id="rows"></section>
+
+    <div class="total">
+      <span class="lbl">Total</span>
+      <span class="val"><span id="kcal">0</span><span class="u">kcal</span></span>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

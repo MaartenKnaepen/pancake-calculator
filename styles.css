@@ -1,0 +1,156 @@
+:root {
+  --bg: #0a0b0d;
+  --panel: #141619;
+  --ink: #f3ede0;
+  --dim: #6f7681;
+  --amber: #ffb000;
+  --amber-soft: rgba(255, 176, 0, 0.12);
+  --line: #23262b;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+
+body {
+  background: radial-gradient(120% 80% at 50% -10%, #16181c 0%, var(--bg) 60%);
+  color: var(--ink);
+  font-family: 'Oswald', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+  padding: 22px 16px 40px;
+}
+
+.screen { width: 100%; max-width: 460px; }
+
+header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 14px;
+  margin-bottom: 26px;
+}
+header .title {
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  font-size: 20px;
+}
+header .title .dot { color: var(--amber); }
+header .meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--dim);
+  letter-spacing: 0.15em;
+}
+
+/* Banana input: the one hero control */
+.anchor { margin-bottom: 30px; }
+.anchor label {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  font-size: 13px;
+  color: var(--dim);
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+.anchor .field {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 6px 22px 6px 6px;
+  transition: box-shadow .2s, border-color .2s;
+}
+.anchor .field:focus-within {
+  border-color: var(--amber);
+  box-shadow: 0 0 0 3px var(--amber-soft);
+}
+.anchor .field::before {
+  content: "🍌";
+  font-size: 30px;
+  line-height: 1;
+  padding: 14px 4px 14px 14px;
+  filter: saturate(1.1);
+}
+.anchor input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--ink);
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 800;
+  font-size: 64px;
+  letter-spacing: -0.02em;
+  text-align: right;
+}
+/* Strip number-input spinners — they shrink the tap target */
+.anchor input::-webkit-outer-spin-button,
+.anchor input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.anchor input[type=number] { -moz-appearance: textfield; }
+.anchor .unit {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--amber);
+}
+
+/* Scaled ingredient rows */
+.rows { display: flex; flex-direction: column; }
+.row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 18px 4px;
+  border-bottom: 1px solid var(--line);
+}
+.row .name {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--ink);
+}
+.row .amt {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+}
+.row .amt .u { font-size: 14px; color: var(--dim); font-weight: 400; }
+
+.total {
+  margin-top: 24px;
+  background: var(--amber);
+  color: #1a1206;
+  border-radius: 16px;
+  padding: 20px 24px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.total .lbl {
+  text-transform: uppercase;
+  letter-spacing: 0.26em;
+  font-weight: 700;
+  font-size: 16px;
+}
+.total .val {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 800;
+  font-size: 40px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.total .val .u { font-size: 16px; font-weight: 700; opacity: .7; }

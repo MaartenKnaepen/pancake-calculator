@@ -1,0 +1,6 @@
+.git
+.gitignore
+designs/
+docs/
+*.csv
+README.md

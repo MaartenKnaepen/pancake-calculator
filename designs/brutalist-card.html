@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Pancakes — Recipe Card</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f2ede0;
+    --ink: #14110d;
+    --red: #ff4b33;
+    --blue: #2438ff;
+    --shadow: 6px 6px 0 var(--ink);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    background: var(--paper);
+    background-image:
+      repeating-linear-gradient(0deg, rgba(20,17,13,.035) 0 1px, transparent 1px 4px);
+    color: var(--ink);
+    font-family: 'Space Mono', monospace;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100dvh;
+    display: flex; justify-content: center;
+    padding: 18px 14px 36px;
+  }
+  .card {
+    width: 100%; max-width: 460px;
+    border: 4px solid var(--ink);
+    box-shadow: var(--shadow);
+    background: var(--paper);
+  }
+
+  header {
+    background: var(--ink); color: var(--paper);
+    padding: 14px 18px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  header h1 {
+    font-family: 'Anton', sans-serif; font-weight: 400;
+    font-size: 30px; letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  header h1 span { color: var(--red); }
+  header .tag {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.12em; color: var(--paper);
+    border: 2px solid var(--paper); padding: 3px 7px;
+  }
+
+  /* ── Banana input: the hero ── */
+  .anchor { padding: 22px 18px; border-bottom: 4px solid var(--ink); }
+  .anchor label {
+    display: block; font-family: 'Anton', sans-serif;
+    font-size: 22px; text-transform: uppercase; letter-spacing: 0.04em;
+    margin-bottom: 12px;
+  }
+  .anchor label em { font-style: normal; color: var(--red); }
+  .anchor .field {
+    display: flex; align-items: stretch;
+    border: 4px solid var(--ink); background: var(--paper);
+  }
+  .anchor .field:focus-within { background: #fff7d6; }
+  .anchor input {
+    flex: 1; min-width: 0;
+    background: transparent; border: none; outline: none;
+    color: var(--ink);
+    font-family: 'Anton', sans-serif; font-size: 68px;
+    text-align: right; padding: 4px 16px;
+  }
+  .anchor .unit {
+    display: flex; align-items: center; padding: 0 20px;
+    background: var(--red); color: var(--paper);
+    font-family: 'Anton', sans-serif; font-size: 30px;
+    border-left: 4px solid var(--ink);
+  }
+
+  /* ── Ingredient rows with proportional bars ── */
+  .rows { padding: 6px 0; }
+  .row {
+    display: grid; grid-template-columns: 1fr auto;
+    align-items: center; gap: 10px;
+    padding: 13px 18px;
+  }
+  .row + .row { border-top: 2px dashed rgba(20,17,13,.28); }
+  .row .label { min-width: 0; }
+  .row .name {
+    font-weight: 700; text-transform: uppercase; font-size: 14px;
+    letter-spacing: 0.06em; margin-bottom: 6px; display: block;
+  }
+  .row .bar {
+    height: 12px; background: var(--blue);
+    border: 2px solid var(--ink); width: 0;
+    transition: width .18s ease-out;
+  }
+  .row .amt {
+    font-family: 'Anton', sans-serif; font-size: 34px; white-space: nowrap;
+  }
+  .row .amt .u { font-family: 'Space Mono', monospace; font-size: 13px; font-weight: 700; }
+
+  .total {
+    background: var(--ink); color: var(--paper);
+    padding: 18px; display: flex; align-items: center; justify-content: space-between;
+  }
+  .total .lbl {
+    font-family: 'Anton', sans-serif; font-size: 26px;
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .total .val { font-family: 'Anton', sans-serif; font-size: 44px; color: var(--red); }
+  .total .val .u { font-family: 'Space Mono', monospace; font-size: 14px; color: var(--paper); }
+</style>
+</head>
+<body>
+  <main class="card">
+    <header>
+      <h1>PANCAKE<span>//</span></h1>
+      <span class="tag">scale × banana</span>
+    </header>
+
+    <section class="anchor">
+      <label for="banana"><em>Banana</em> — weigh it</label>
+      <div class="field">
+        <input id="banana" type="number" inputmode="decimal" value="820" min="0" step="1" aria-label="Banana grams">
+        <span class="unit">G</span>
+      </div>
+    </section>
+
+    <section class="rows" id="rows"></section>
+
+    <div class="total">
+      <span class="lbl">Total</span>
+      <span class="val"><span id="kcal">0</span> <span class="u">KCAL</span></span>
+    </div>
+  </main>
+
+<script>
+  // Base recipe anchored on banana = 220 g  →  ratios per gram of banana.
+  const ANCHOR_BANANA_G = 220;
+  const INGREDIENTS = [
+    { name: "Egg whites",     base: 180, unit: "g",   decimals: 0 },
+    { name: "Protein powder", base: 33,  unit: "g",   decimals: 0 },
+    { name: "Rolled oats",    base: 65,  unit: "g",   decimals: 0 },
+    { name: "Cocoa powder",   base: 15,  unit: "g",   decimals: 0 },
+    { name: "Cinnamon",       base: 1,   unit: "tsp", decimals: 2 },
+  ];
+  const KCAL_BASE = 720;
+  const MAX_BASE = Math.max(...INGREDIENTS.map(i => i.base));
+
+  function scale(bananaG) {
+    const factor = bananaG / ANCHOR_BANANA_G;
+    return {
+      items: INGREDIENTS.map(i => ({ ...i, amount: i.base * factor, frac: i.base / MAX_BASE })),
+      kcal: KCAL_BASE * factor,
+    };
+  }
+
+  const rowsEl = document.getElementById("rows");
+  const kcalEl = document.getElementById("kcal");
+  const input  = document.getElementById("banana");
+
+  function render() {
+    const grams = parseFloat(input.value) || 0;
+    const { items, kcal } = scale(grams);
+    rowsEl.innerHTML = items.map(i => `
+      <div class="row">
+        <div class="label">
+          <span class="name">${i.name}</span>
+          <div class="bar" style="width:${(i.frac * 100).toFixed(0)}%"></div>
+        </div>
+        <span class="amt">${i.amount.toFixed(i.decimals)}<span class="u">${i.unit}</span></span>
+      </div>`).join("");
+    kcalEl.textContent = Math.round(kcal);
+  }
+
+  input.addEventListener("input", render);
+  render();
+</script>
+</body>
+</html>
